@@ -1,0 +1,179 @@
+@import "tailwindcss";
+
+:root {
+  --font-display: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-body: "Instrument Sans", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --ink: #EDEBE6;        /* headline */
+  --ink-body: #CFCCC5;   /* body paragraph */
+  --ink-muted: #A19E96;  /* subhead */
+  --ink-faint: #8A877F;  /* labels */
+  --accent: #E8743B;     /* matches your orange glow */
+
+  --background: #08080a;
+  --glow-core: rgba(232, 116, 59, 0.38);
+  --glow-spread: rgba(232, 116, 59, 0.20);
+  --glow-wide: rgba(232, 116, 59, 0.08);
+
+  color-scheme: dark;
+  accent-color: var(--accent);
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink-body);
+  background-color: var(--background);
+  min-height: 100dvh;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    /* Intense bright orange core rising from the bottom */
+    radial-gradient(ellipse 80% 45% at 50% 105%, var(--glow-core) 0%, var(--glow-spread) 45%, transparent 75%),
+    /* Broad ambient warm wash reaching into the lower half */
+    radial-gradient(ellipse 120% 70% at 50% 120%, var(--glow-wide) 0%, transparent 70%);
+}
+
+/* "Shashank Dhar · Frontend Platform Engineer" */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;            /* 13px */
+  letter-spacing: 0.01em;
+  color: var(--ink-faint);
+  margin: 0 0 1rem;
+}
+.eyebrow .name {
+  font-family: var(--font-body);
+  font-weight: 500;
+  color: var(--ink-muted);
+}
+
+/* "Building the systems behind the interface." */
+.headline {
+  font-family: var(--font-display);
+  font-weight: 400;                /* Instrument Serif has one weight; never bold it */
+  font-size: clamp(2.75rem, 6vw + 1rem, 4.75rem);
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0 0 1.25rem;
+  max-width: 14ch;
+  text-wrap: balance;
+}
+.headline em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+/* "Designing runtimes, protocols, and compilers…" */
+.subhead {
+  font-family: var(--font-body);
+  font-size: clamp(1.125rem, 0.6vw + 1rem, 1.3125rem);
+  line-height: 1.5;
+  color: var(--ink-muted);
+  margin: 0 0 2.5rem;
+  max-width: 40ch;
+}
+
+/* "Most recently I designed how an AI assistant renders…" */
+.lede {
+  font-family: var(--font-body);
+  font-size: clamp(1.0625rem, 0.3vw + 1rem, 1.1875rem);  /* 17–19px */
+  line-height: 1.6;
+  color: var(--ink);               /* brighter than the subhead: this is the claim */
+  margin: 0 0 1.25rem;
+  max-width: 54ch;
+  text-wrap: pretty;
+}
+
+/* → sandboxed generative UI  → streaming + human-in-the-loop  → … */
+.proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.75rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;            /* 13px */
+  line-height: 1.5;
+  color: var(--ink-faint);
+}
+.proof li::before {
+  content: "→";
+  color: var(--accent);
+  margin-right: 0.5em;
+}
+
+@media (max-width: 480px) {
+  .proof { flex-direction: column; gap: 0.5rem; }
+}
+
+/* ---- Streaming effect (used by stream.js) ---- */
+.lede .tok {
+  opacity: 0;
+  transition: opacity 0.18s ease-out;
+}
+.lede .tok.is-in {
+  opacity: 1;
+}
+.lede .caret {
+  display: inline-block;
+  width: 0.5em;
+  height: 1.05em;
+  margin-left: 0.08em;
+  vertical-align: -0.15em;
+  background: var(--accent);
+  animation: caret-blink 1s steps(1) infinite;
+}
+@keyframes caret-blink {
+  50% { opacity: 0; }
+}
+
+.proof.is-waiting li {
+  opacity: 0;
+  transform: translateY(4px);
+}
+.proof li {
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+.proof.is-in li:nth-child(2) { transition-delay: 0.12s; }
+.proof.is-in li:nth-child(3) { transition-delay: 0.24s; }
+
+/* GitHub · LinkedIn */
+.links {
+  display: flex;
+  gap: 1.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+.links a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+  transition: color 0.15s ease;
+}
+.links a:hover {
+  color: var(--ink);
+}
+
+::selection {
+  background-color: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
